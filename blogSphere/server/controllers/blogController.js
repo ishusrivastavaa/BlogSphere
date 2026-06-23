@@ -12,7 +12,7 @@ const createBlog = async (req, res) => {
             title,
             content,
             category,
-            tags: tags ? tags.split(",") : [],
+            tags: tags ? (Array.isArray(tags) ? tags : tags.split(",").map(tag => tag.trim())) : [],
             image: req.file ? req.file.path.replace(/\\/g, "/") : "",
             author: req.user.id
         });
@@ -85,7 +85,7 @@ const updateBlog = async (req, res) => {
             updateData.image = req.file.path.replace(/\\/g, "/");
         }
         if (req.body.tags) {
-            updateData.tags = req.body.tags.split(",");
+            updateData.tags = Array.isArray(req.body.tags) ? req.body.tags : req.body.tags.split(",").map(tag => tag.trim());
         }
 
         const updatedBlog = await Blog.findByIdAndUpdate(
