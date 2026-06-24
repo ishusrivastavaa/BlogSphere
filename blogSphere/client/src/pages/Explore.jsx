@@ -140,8 +140,8 @@ export default function Explore() {
                                 key={idx}
                                 onClick={() => setSelectedCategory(cat.value)}
                                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${(selectedCategory === cat.value)
-                                        ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
-                                        : 'bg-slate-50 text-slate-600 border-slate-100 hover:bg-slate-100 hover:text-slate-800'
+                                    ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                                    : 'bg-slate-50 text-slate-600 border-slate-100 hover:bg-slate-100 hover:text-slate-800'
                                     }`}
                             >
                                 {cat.label}

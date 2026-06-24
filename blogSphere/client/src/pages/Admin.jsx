@@ -240,8 +240,8 @@ export default function Admin() {
                         <button
                             onClick={() => setActiveTab('users')}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all text-sm ${activeTab === 'users'
-                                    ? 'bg-indigo-50 text-indigo-700 shadow-sm'
-                                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                                 }`}
                         >
                             <Users weight="bold" size={20} />
@@ -255,8 +255,8 @@ export default function Admin() {
                         <button
                             onClick={() => setActiveTab('blogs')}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all text-sm ${activeTab === 'blogs'
-                                    ? 'bg-indigo-50 text-indigo-700 shadow-sm'
-                                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                                ? 'bg-indigo-50 text-indigo-700 shadow-sm'
+                                : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                                 }`}
                         >
                             <Article weight="bold" size={20} />
