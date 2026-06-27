@@ -82,7 +82,7 @@ export default function Explore() {
     ];
 
     return (
-        <div className="text-gray-800 antialiased min-h-screen flex flex-col bg-white">
+        <div className="text-gray-800 antialiased min-h-screen flex flex-col bg-mesh">
             <Navbar activePage="explore" />
 
             <main className="flex-grow pt-32 pb-20">
@@ -93,7 +93,7 @@ export default function Explore() {
                         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-display">
                             Explore Stories
                         </h1>
-                        <p className="text-slate-500 text-sm mt-1">
+                        <p className="text-slate-500 text-xs font-semibold mt-1">
                             Dive deep into write-ups, code guides, creative reviews, and technical research.
                         </p>
                     </div>
@@ -103,13 +103,13 @@ export default function Explore() {
 
                         {/* Search Box */}
                         <div className="lg:col-span-6 relative">
-                            <MagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} weight="bold" />
+                            <MagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 animate-pulse" size={18} weight="bold" />
                             <input
                                 type="text"
                                 placeholder="Search articles by title, content, or author..."
                                 value={searchQuery}
                                 onChange={e => setSearchQuery(e.target.value)}
-                                className="w-full pl-11 pr-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-slate-300 focus:bg-white text-slate-800 transition-all font-medium"
+                                className="w-full pl-11 pr-4 py-3.5 glass-input text-xs text-slate-800 placeholder-slate-400 font-semibold"
                             />
                         </div>
 
@@ -123,7 +123,7 @@ export default function Explore() {
                                 <select
                                     value={sortBy}
                                     onChange={e => setSortBy(e.target.value)}
-                                    className="pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none text-xs font-bold text-slate-700 appearance-none cursor-pointer"
+                                    className="pl-4 pr-10 py-2.5 bg-white/80 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-xs font-bold text-slate-700 appearance-none cursor-pointer shadow-sm hover:bg-white transition-all"
                                 >
                                     <option value="newest">Newest First</option>
                                     <option value="oldest">Oldest First</option>
@@ -134,14 +134,14 @@ export default function Explore() {
                     </div>
 
                     {/* Category Pill Selectors list */}
-                    <div className="flex flex-wrap gap-2.5 mb-12 pb-3 border-b border-slate-100">
+                    <div className="flex flex-wrap gap-2.5 mb-12 pb-4 border-b border-slate-100/60">
                         {categoriesList.map((cat, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => setSelectedCategory(cat.value)}
-                                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${(selectedCategory === cat.value)
-                                    ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
-                                    : 'bg-slate-50 text-slate-600 border-slate-100 hover:bg-slate-100 hover:text-slate-800'
+                                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 border cursor-pointer ${(selectedCategory === cat.value)
+                                    ? 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white border-transparent shadow-md shadow-indigo-500/10'
+                                    : 'bg-white/80 hover:bg-white text-slate-600 border-slate-200 hover:border-indigo-100 hover:text-indigo-600 shadow-sm'
                                     }`}
                             >
                                 {cat.label}
@@ -153,17 +153,17 @@ export default function Explore() {
                     {loading ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {[...Array(6)].map((_, idx) => (
-                                <div key={idx} className="bg-white border border-slate-100 rounded-3xl h-[420px] p-6 animate-pulse space-y-4">
-                                    <div className="w-full h-48 rounded-2xl bg-slate-100" />
-                                    <div className="w-1/3 h-4 bg-slate-100 rounded" />
-                                    <div className="w-full h-6 bg-slate-100 rounded" />
-                                    <div className="w-2/3 h-6 bg-slate-100 rounded" />
-                                    <div className="w-full h-12 bg-slate-100 rounded" />
+                                <div key={idx} className="glass-card rounded-3xl h-[440px] p-6 animate-pulse space-y-4">
+                                    <div className="w-full h-48 rounded-2xl bg-slate-100/50" />
+                                    <div className="w-1/3 h-4 bg-slate-100/50 rounded" />
+                                    <div className="w-full h-6 bg-slate-100/50 rounded" />
+                                    <div className="w-2/3 h-6 bg-slate-100/50 rounded" />
+                                    <div className="w-full h-12 bg-slate-100/50 rounded animate-pulse" />
                                 </div>
                             ))}
                         </div>
                     ) : error ? (
-                        <div className="p-8 bg-rose-50 border border-rose-100 text-rose-700 text-center rounded-3xl font-medium">
+                        <div className="p-8 bg-rose-50 border border-rose-100 text-rose-700 text-center rounded-3xl font-semibold">
                             Error fetching publications: {error}
                         </div>
                     ) : (
@@ -173,22 +173,26 @@ export default function Explore() {
                                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                             >
                                 {filteredBlogs.length === 0 ? (
-                                    <div className="col-span-full py-24 text-center flex flex-col items-center justify-center gap-3 text-slate-400">
-                                        <BookmarkSimple size={48} weight="light" className="text-slate-300" />
-                                        <p className="font-bold text-slate-500">No stories found</p>
-                                        <p className="text-xs text-slate-400 max-w-xs leading-relaxed">
-                                            We couldn't find any stories matching your selection. Try clearing filters or revising your query.
-                                        </p>
+                                    <div className="col-span-full py-20 px-6 text-center flex flex-col items-center justify-center gap-4 text-slate-400 glass-card rounded-3xl max-w-lg mx-auto">
+                                        <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-500 shadow-inner">
+                                            <BookmarkSimple size={32} weight="light" />
+                                        </div>
+                                        <div>
+                                            <p className="font-extrabold text-slate-800 text-sm">No stories found</p>
+                                            <p className="text-xs text-slate-400 max-w-xs leading-relaxed mt-1 font-medium">
+                                                We couldn't find any stories matching your selection. Try clearing filters or revising your query.
+                                            </p>
+                                        </div>
                                     </div>
                                 ) : (
                                     filteredBlogs.map((blog, idx) => (
                                         <motion.div
                                             key={blog._id}
                                             layout
-                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            initial={{ opacity: 0, scale: 0.95 }}
                                             animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 0.9 }}
-                                            transition={{ duration: 0.2 }}
+                                            exit={{ opacity: 0, scale: 0.95 }}
+                                            transition={{ duration: 0.25 }}
                                         >
                                             <BlogCard blog={blog} index={idx} />
                                         </motion.div>

@@ -87,10 +87,10 @@ export default function Profile() {
     };
 
     return (
-        <div className="text-gray-800 antialiased min-h-screen bg-slate-50/50">
+        <div className="text-slate-800 antialiased min-h-screen bg-mesh">
 
             {/* Navbar settings header */}
-            <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
+            <nav className="glass-nav sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16 items-center">
                         <Link to="/dashboard" className="flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors font-bold text-xs uppercase tracking-wider">
@@ -107,9 +107,9 @@ export default function Profile() {
                         <Spinner size={40} className="animate-spin text-slate-800" />
                     </div>
                 ) : (
-                    <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden text-left">
+                    <div className="glass-card rounded-3xl overflow-hidden text-left">
                         {/* Banner Cover Cover background */}
-                        <div className="h-44 bg-gradient-to-r from-slate-900 to-indigo-950 relative" />
+                        <div className="h-44 bg-gradient-to-r from-indigo-950 via-slate-900 to-violet-950 relative" />
 
                         <div className="px-6 sm:px-10 pb-10">
 
@@ -119,8 +119,8 @@ export default function Profile() {
                                     id="profileImagePreview"
                                     src={avatarPreview}
                                     alt="Profile"
-                                    className="w-full h-full rounded-full object-cover border-4 border-white bg-slate-50 shadow-md"
-                                    onError={e => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || 'U')}&background=f1f5f9&color=4f46e5&size=256&bold=true`; }}
+                                    className="w-full h-full rounded-full object-cover border-4 border-white bg-slate-50 shadow-md ring-4 ring-indigo-50/10"
+                                    onError={e => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || 'U')}&background=6366f1&color=ffffff&size=256&bold=true`; }}
                                 />
                                 <div
                                     className="absolute inset-0 bg-slate-950/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer border-4 border-white"
@@ -144,25 +144,25 @@ export default function Profile() {
 
                                     {/* Full Name */}
                                     <div className="space-y-2">
-                                        <label htmlFor="fullName" className="text-xs font-bold text-slate-400 uppercase tracking-wider">Full Name</label>
+                                        <label htmlFor="fullName" className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Full Name</label>
                                         <input
                                             type="text"
                                             id="fullName"
                                             value={fullName}
                                             onChange={e => setFullName(e.target.value)}
-                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all text-xs font-semibold text-slate-800"
+                                            className="w-full px-4 py-3.5 glass-input text-xs font-bold text-slate-850"
                                         />
                                     </div>
 
                                     {/* Email address */}
                                     <div className="space-y-2">
-                                        <label htmlFor="email" className="text-xs font-bold text-slate-400 uppercase tracking-wider">Email Address</label>
+                                        <label htmlFor="email" className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Email Address</label>
                                         <input
                                             type="email"
                                             id="email"
                                             value={email}
                                             onChange={e => setEmail(e.target.value)}
-                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all text-xs font-semibold text-slate-800"
+                                            className="w-full px-4 py-3.5 glass-input text-xs font-bold text-slate-850"
                                         />
                                     </div>
 
@@ -170,47 +170,47 @@ export default function Profile() {
 
                                 {/* Bio text area */}
                                 <div className="space-y-2">
-                                    <label htmlFor="bio" className="text-xs font-bold text-slate-400 uppercase tracking-wider">Short Bio</label>
+                                    <label htmlFor="bio" className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Short Bio</label>
                                     <textarea
                                         id="bio"
                                         rows={4}
                                         value={bio}
                                         onChange={e => setBio(e.target.value)}
-                                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all text-xs font-semibold text-slate-800 leading-relaxed resize-none"
+                                        className="w-full px-4 py-3.5 glass-input text-xs font-bold text-slate-850 leading-relaxed resize-none"
                                         placeholder="Tell your readers about yourself..."
                                     />
                                 </div>
 
                                 {/* Mock Social Links */}
-                                <div className="pt-6 border-t border-slate-100">
+                                <div className="pt-6 border-t border-slate-100/60">
                                     <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Social Media & Websites</p>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
                                         {/* Twitter */}
                                         <div className="space-y-2">
                                             <label htmlFor="twitter" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                                                <TwitterLogo size={14} /> Twitter URL
+                                                <TwitterLogo size={14} className="text-indigo-500" /> Twitter URL
                                             </label>
                                             <input
                                                 type="url"
                                                 id="twitter"
                                                 value={twitterLink}
                                                 onChange={e => setTwitterLink(e.target.value)}
-                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all text-xs font-semibold text-slate-800"
+                                                className="w-full px-4 py-3.5 glass-input text-xs font-bold text-slate-850"
                                             />
                                         </div>
 
                                         {/* GitHub */}
                                         <div className="space-y-2">
                                             <label htmlFor="github" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                                                <GithubLogo size={14} /> GitHub Profile
+                                                <GithubLogo size={14} className="text-indigo-500" /> GitHub Profile
                                             </label>
                                             <input
                                                 type="url"
                                                 id="github"
                                                 value={githubLink}
                                                 onChange={e => setGithubLink(e.target.value)}
-                                                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all text-xs font-semibold text-slate-800"
+                                                className="w-full px-4 py-3.5 glass-input text-xs font-bold text-slate-850"
                                             />
                                         </div>
 
@@ -218,11 +218,11 @@ export default function Profile() {
                                 </div>
 
                                 {/* Actions row */}
-                                <div className="pt-6 border-t border-slate-100 flex justify-end gap-3.5">
+                                <div className="pt-6 border-t border-slate-100/60 flex justify-end gap-3.5">
                                     <button
                                         type="submit"
                                         disabled={saving}
-                                        className="btn-primary px-6 py-2.5 rounded-full text-xs font-bold shadow-sm disabled:opacity-70 flex items-center gap-2 cursor-pointer"
+                                        className="btn-primary px-6 py-2.5 rounded-full text-xs font-bold shadow-md disabled:opacity-70 flex items-center gap-2 cursor-pointer"
                                     >
                                         {saving ? (
                                             <Spinner size={14} className="animate-spin text-white" />

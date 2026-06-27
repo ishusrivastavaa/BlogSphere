@@ -81,27 +81,27 @@ export default function EditBlog() {
     );
 
     return (
-        <div className="text-gray-800 antialiased min-h-screen flex flex-col bg-slate-50/50">
+        <div className="text-gray-800 antialiased min-h-screen flex flex-col bg-mesh">
 
             {/* Editor control header */}
-            <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
+            <nav className="glass-nav sticky top-0 z-50">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6">
                     <div className="flex justify-between h-16 items-center">
                         <Link to="/dashboard" className="flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors font-bold text-xs uppercase tracking-wider">
                             <ArrowLeft weight="bold" size={16} /> Back
                         </Link>
                         <div className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-sm shadow-indigo-500/10">
                                 <PenNib weight="bold" size={16} />
                             </div>
-                            <span className="font-extrabold text-sm tracking-tight text-slate-900 font-display">Edit Article Draft</span>
+                            <span className="font-extrabold text-sm tracking-tight text-slate-900 font-display">Edit Story Draft</span>
                         </div>
                         <div className="flex items-center gap-3">
                             <button
                                 type="submit"
                                 form="editBlogForm"
                                 disabled={saving}
-                                className="btn-primary px-5 py-2.5 text-xs font-bold shadow-sm flex items-center gap-2 disabled:opacity-70 cursor-pointer"
+                                className="btn-primary px-5 py-2.5 text-xs font-bold shadow-md flex items-center gap-2 disabled:opacity-70 cursor-pointer"
                             >
                                 {saving ? (
                                     <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
@@ -119,21 +119,21 @@ export default function EditBlog() {
 
             {/* Main Composition Panel */}
             <main className="flex-grow py-12 px-4 sm:px-6 max-w-3xl mx-auto w-full animate-fade-in">
-                <div className="bg-white rounded-3xl border border-slate-100 p-6 sm:p-10 shadow-sm">
+                <div className="glass-card rounded-3xl p-6 sm:p-10">
                     <form id="editBlogForm" onSubmit={handleSubmit} className="space-y-8 text-left">
 
                         {/* Image upload preview */}
                         <div className="space-y-2">
                             <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Article Cover Photo</label>
                             <div
-                                className="relative w-full h-56 sm:h-64 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 hover:bg-slate-100/60 hover:border-slate-300 transition-all flex flex-col items-center justify-center overflow-hidden cursor-pointer group"
+                                className="relative w-full h-56 sm:h-64 rounded-2xl border-2 border-dashed border-slate-200 bg-white/50 hover:bg-white hover:border-indigo-300 transition-all flex flex-col items-center justify-center overflow-hidden cursor-pointer group"
                                 onClick={() => fileRef.current.click()}
                             >
                                 <input type="file" ref={fileRef} accept="image/*" className="hidden" onChange={handleImageChange} />
                                 {!imagePreview ? (
                                     <div className="text-center p-6 flex flex-col items-center space-y-3">
                                         <div className="w-12 h-12 rounded-2xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-500 group-hover:scale-105 transition-transform duration-300">
-                                            <Image weight="bold" size={24} />
+                                            <Image weight="bold" size={24} className="text-slate-400 group-hover:text-indigo-500" />
                                         </div>
                                         <div>
                                             <p className="text-xs font-bold text-slate-700">Click to upload cover photo</p>
@@ -167,7 +167,7 @@ export default function EditBlog() {
                                 required
                                 value={title}
                                 onChange={e => setTitle(e.target.value)}
-                                className="w-full text-2xl sm:text-3xl font-extrabold text-slate-900 placeholder-slate-300 bg-transparent border-0 border-b border-slate-100 focus:border-indigo-500 focus:ring-0 outline-none pb-3 font-display transition-colors"
+                                className="w-full text-2xl sm:text-3xl font-extrabold text-slate-900 placeholder-slate-300 bg-transparent border-0 border-b border-slate-200 focus:border-indigo-500 focus:ring-0 outline-none pb-3 font-display transition-colors"
                                 placeholder="Title of your story..."
                             />
                         </div>
@@ -184,7 +184,7 @@ export default function EditBlog() {
                                         required
                                         value={category}
                                         onChange={e => setCategory(e.target.value)}
-                                        className="w-full pl-4 pr-10 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all appearance-none text-xs font-bold text-slate-700 cursor-pointer"
+                                        className="w-full pl-4 pr-10 py-3.5 glass-input text-xs font-bold text-slate-700 outline-none transition-all appearance-none cursor-pointer"
                                     >
                                         <option value="" disabled>Select a category</option>
                                         <option value="technology">Technology</option>
@@ -207,7 +207,7 @@ export default function EditBlog() {
                                     id="tags"
                                     value={tags}
                                     onChange={e => setTags(e.target.value)}
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all text-xs font-bold text-slate-700 placeholder-slate-400"
+                                    className="w-full px-4 py-3.5 glass-input text-xs font-bold text-slate-700 placeholder-slate-400"
                                     placeholder="web, tutorial, design"
                                 />
                             </div>
@@ -215,7 +215,7 @@ export default function EditBlog() {
                         </div>
 
                         {/* Article Content Area */}
-                        <div className="space-y-2 pt-4 border-t border-slate-100">
+                        <div className="space-y-2 pt-4 border-t border-slate-100/60">
                             <label htmlFor="content" className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Story Content</label>
                             <textarea
                                 id="content"

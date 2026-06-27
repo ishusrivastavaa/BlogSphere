@@ -78,9 +78,17 @@ export default function Dashboard() {
     // Calculate total reading minutes of all author posts combined
     const totalWords = blogs.reduce((acc, b) => acc + (b.content ? b.content.split(/\s+/).length : 0), 0);
     const totalReadingTime = Math.ceil(totalWords / 225);
+    const categoryStyles = {
+        technology: 'bg-blue-50/80 text-blue-600 border-blue-100/50',
+        design: 'bg-pink-50/80 text-pink-600 border-pink-100/50',
+        programming: 'bg-emerald-50/80 text-emerald-600 border-emerald-100/50',
+        business: 'bg-amber-50/80 text-amber-600 border-amber-100/50',
+        lifestyle: 'bg-purple-50/80 text-purple-700 border-purple-100/50',
+        general: 'bg-slate-50/80 text-slate-600 border-slate-100/50'
+    };
 
     return (
-        <div className="text-gray-800 antialiased min-h-screen bg-slate-50/50 flex flex-col">
+        <div className="text-slate-800 antialiased min-h-screen bg-mesh flex flex-col">
             <ConfirmModal
                 open={modal.open}
                 title="Delete Article"
@@ -90,14 +98,14 @@ export default function Dashboard() {
             />
 
             {/* Sticky Dashboard Navbar */}
-            <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
+            <nav className="glass-nav sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16 items-center">
-                        <Link to="/" className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white">
-                                <PenNib weight="bold" size={16} />
+                    <div className="flex justify-between h-20 items-center">
+                        <Link to="/" className="flex items-center gap-2.5 group">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-all">
+                                <PenNib weight="bold" size={20} />
                             </div>
-                            <span className="font-extrabold text-lg tracking-tight text-slate-900 font-display">BlogSphere</span>
+                            <span className="font-extrabold text-2xl tracking-tight text-slate-900 font-display">BlogSphere</span>
                         </Link>
                         <div className="flex items-center gap-4">
                             <Link
@@ -107,17 +115,17 @@ export default function Dashboard() {
                                 <PlusCircle size={18} weight="bold" /> Write Story
                             </Link>
                             <div className="relative group cursor-pointer">
-                                <div className="w-9 h-9 rounded-full border border-slate-200 overflow-hidden shadow-inner">
+                                <div className="w-9 h-9 rounded-full border border-slate-200 overflow-hidden shadow-sm">
                                     <img src={avatarSrc} alt={user?.name} className="w-full h-full object-cover" />
                                 </div>
-                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-slate-50 z-50">
+                                <div className="absolute right-0 mt-3 w-48 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-slate-50 z-50">
                                     <Link to="/profile" className="block px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors">
                                         <User size={14} className="inline mr-2" />Profile
                                     </Link>
                                     <div className="border-t border-slate-50 my-1" />
                                     <button
                                         onClick={handleLogout}
-                                        className="w-full text-left block px-4 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-50"
+                                        className="w-full text-left block px-4 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-50 cursor-pointer"
                                     >
                                         Sign out
                                     </button>
@@ -133,15 +141,15 @@ export default function Dashboard() {
 
                 {/* Left Sidebar navigation panel (hidden on mobile) */}
                 <aside className="hidden md:block w-64 pt-8 pr-8 border-r border-slate-100 min-h-[calc(100vh-4rem)]">
-                    <nav className="space-y-1">
+                    <nav className="space-y-1.5">
                         {navItems.map((item, idx) => (
                             <div key={idx}>
                                 {item.divider && <div className="border-t border-slate-100 my-4" />}
                                 <Link
                                     to={item.to}
                                     className={`flex items-center gap-3 px-4 py-3 rounded-2xl font-bold transition-all text-xs uppercase tracking-wider ${item.active
-                                            ? 'bg-slate-900 text-white shadow-sm'
-                                            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                                            ? 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-md shadow-indigo-500/10'
+                                            : 'text-slate-500 hover:bg-white hover:text-indigo-600 border border-transparent hover:border-slate-200/50 shadow-sm'
                                         }`}
                                 >
                                     {item.icon} {item.label}
@@ -158,7 +166,7 @@ export default function Dashboard() {
                     <div className="flex justify-between items-end mb-8">
                         <div>
                             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-display">Dashboard</h1>
-                            <p className="text-slate-500 text-xs mt-1">Manage publications, monitor stats, and adjust creator settings.</p>
+                            <p className="text-slate-500 text-xs mt-1 font-semibold">Manage publications, monitor stats, and adjust creator settings.</p>
                         </div>
                         <Link
                             to="/create-blog"
@@ -172,8 +180,8 @@ export default function Dashboard() {
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
 
                         {/* Stat Card 1 */}
-                        <div className="bg-white p-5 rounded-3xl border border-slate-100 flex items-center gap-4 hover:shadow-md transition-shadow">
-                            <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                        <div className="glass-card p-5 rounded-3xl flex items-center gap-4 hover:scale-102 transition-all">
+                            <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-sm">
                                 <Article weight="bold" size={22} />
                             </div>
                             <div>
@@ -183,8 +191,8 @@ export default function Dashboard() {
                         </div>
 
                         {/* Stat Card 2 */}
-                        <div className="bg-white p-5 rounded-3xl border border-slate-100 flex items-center gap-4 hover:shadow-md transition-shadow">
-                            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                        <div className="glass-card p-5 rounded-3xl flex items-center gap-4 hover:scale-102 transition-all">
+                            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm">
                                 <Clock weight="bold" size={22} />
                             </div>
                             <div>
@@ -194,8 +202,8 @@ export default function Dashboard() {
                         </div>
 
                         {/* Stat Card 3 */}
-                        <div className="bg-white p-5 rounded-3xl border border-slate-100 flex items-center gap-4 hover:shadow-md transition-shadow">
-                            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                        <div className="glass-card p-5 rounded-3xl flex items-center gap-4 hover:scale-102 transition-all">
+                            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shadow-sm">
                                 <Sparkle weight="bold" size={22} />
                             </div>
                             <div>
@@ -210,12 +218,12 @@ export default function Dashboard() {
                     </div>
 
                     {/* Main User posts segment */}
-                    <div className="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm">
-                        <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/30">
-                            <h2 className="text-sm font-extrabold text-slate-800 uppercase tracking-wider">Your publications feed</h2>
+                    <div className="glass-card rounded-3xl overflow-hidden">
+                        <div className="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+                            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your publications feed</h2>
                         </div>
 
-                        <div className="divide-y divide-slate-50">
+                        <div className="divide-y divide-slate-100/60">
                             {loading && (
                                 <div className="p-12 text-center flex flex-col items-center gap-3 text-slate-500">
                                     <Spinner size={32} className="animate-spin text-slate-800" />
@@ -227,7 +235,7 @@ export default function Dashboard() {
                                     <p className="font-semibold text-sm">You haven't composed any stories yet.</p>
                                     <Link
                                         to="/create-blog"
-                                        className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-xs font-bold"
+                                        className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-xs font-bold shadow-md"
                                     >
                                         <span>Write Your First Post</span>
                                         <PlusCircle size={16} weight="bold" />
@@ -240,8 +248,10 @@ export default function Dashboard() {
                                     ? `/uploads/${blog.image.replace(/^uploads\//, '')}`
                                     : 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=300&q=80';
 
+                                const categoryClass = categoryStyles[(blog.category || 'general').toLowerCase()] || categoryStyles.general;
+
                                 return (
-                                    <div key={blog._id} className="p-5 flex flex-col sm:flex-row gap-5 hover:bg-slate-50/40 transition-colors">
+                                    <div key={blog._id} className="p-5 flex flex-col sm:flex-row gap-5 hover:bg-slate-50/30 transition-colors">
                                         <img
                                             src={imageUrl}
                                             alt="Cover"
@@ -251,20 +261,20 @@ export default function Dashboard() {
                                         <div className="flex-1 flex flex-col justify-between">
                                             <div>
                                                 <div className="flex justify-between items-start gap-4 mb-1.5">
-                                                    <h3 className="text-base font-extrabold text-slate-900 leading-snug hover:text-indigo-600 transition-colors">
+                                                    <h3 className="text-base font-extrabold text-slate-900 leading-snug hover:text-indigo-600 transition-colors font-display">
                                                         <Link to={`/blog/${blog._id}`}>{blog.title}</Link>
                                                     </h3>
-                                                    <span className="px-2.5 py-1 bg-slate-50 border border-slate-100 text-slate-500 text-[10px] font-extrabold rounded-full whitespace-nowrap capitalize tracking-wide">
+                                                    <span className={`px-2.5 py-1 border text-[10px] font-bold rounded-full whitespace-nowrap capitalize tracking-wide ${categoryClass}`}>
                                                         {blog.category || 'General'}
                                                     </span>
                                                 </div>
-                                                <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-4">
+                                                <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-4 font-semibold">
                                                     {blog.content ? blog.content.replace(/<[^>]*>?/gm, '').substring(0, 140) + '...' : ''}
                                                 </p>
                                             </div>
 
                                             {/* Footer Actions */}
-                                            <div className="flex justify-between items-center mt-auto pt-2 border-t border-slate-50/50">
+                                            <div className="flex justify-between items-center mt-auto pt-2 border-t border-slate-100/60">
                                                 <div className="text-[10px] font-bold text-slate-400 flex items-center gap-1">
                                                     <CalendarBlank size={12} /> {date}
                                                 </div>
@@ -278,7 +288,7 @@ export default function Dashboard() {
                                                     </Link>
                                                     <button
                                                         onClick={() => setModal({ open: true, blogId: blog._id, title: blog.title })}
-                                                        className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
+                                                        className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all cursor-pointer"
                                                         title="Delete"
                                                     >
                                                         <Trash weight="bold" size={16} />
