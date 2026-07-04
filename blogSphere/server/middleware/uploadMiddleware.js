@@ -57,8 +57,6 @@ const uploadProfileImage = multer({
     storage: profileStorage
 
 });
-
-
-// EXPORTS
+//Exports
 
 module.exports = { uploadBlogImage, uploadProfileImage };
