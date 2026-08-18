@@ -27,15 +27,28 @@ const createBlog = async (req, res) => {
     }
 };
 
-// Get All Blogs
+// Get All Blogs (with Pagination)
 const getAllBlog = async (req, res) => {
     try {
+        const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+        const limit = Math.max(1, parseInt(req.query.limit, 10) || 10);
+        const skip = (page - 1) * limit;
+
+        const totalBlogs = await Blog.countDocuments();
+        const totalPages = Math.ceil(totalBlogs / limit) || 1;
 
         const blogs = await Blog.find()
             .populate("author", "name email")
-            .sort({ createdAt: -1 });
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
 
-        res.status(200).json(blogs);
+        res.status(200).json({
+            blogs,
+            currentPage: page,
+            totalPages,
+            totalBlogs
+        });
 
     } catch (error) {
         res.status(500).json({ message: error.message });

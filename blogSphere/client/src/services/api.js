@@ -36,8 +36,8 @@ export const authAPI = {
 };
 
 export const blogsAPI = {
-    getAll: async () => {
-        const res = await fetch(`${API_BASE_URL}/blog/all`, { headers: getHeaders() });
+    getAll: async (page = 1, limit = 10) => {
+        const res = await fetch(`${API_BASE_URL}/blog/all?page=${page}&limit=${limit}`, { headers: getHeaders() });
         return handleResponse(res);
     },
     getById: async (id) => {

@@ -24,12 +24,14 @@ const blogSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
-
     }
 },
     {
         timestamps: true
     }
-)
+);
+
+// Index for optimizing createdAt queries and sorting
+blogSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model("Blog", blogSchema);

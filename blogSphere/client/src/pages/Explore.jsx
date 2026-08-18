@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BlogCard from '../components/BlogCard';
 import { blogsAPI } from '../services/api';
-import { MagnifyingGlass, Funnel, SortAscending, BookmarkSimple } from '@phosphor-icons/react';
+import { MagnifyingGlass, SortAscending, BookmarkSimple, ArrowLeft, ArrowRight } from '@phosphor-icons/react';
 
 export default function Explore() {
     const location = useLocation();
@@ -13,6 +13,12 @@ export default function Explore() {
     const [filteredBlogs, setFilteredBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    // Pagination State
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalBlogs, setTotalBlogs] = useState(0);
+    const limit = 9;
 
     // Filters State
     const [searchQuery, setSearchQuery] = useState('');
@@ -28,19 +34,29 @@ export default function Explore() {
         if (categoryParam) setSelectedCategory(categoryParam);
     }, [location]);
 
-    // Fetch blogs
+    // Fetch paginated blogs
     useEffect(() => {
-        blogsAPI.getAll()
+        setLoading(true);
+        blogsAPI.getAll(page, limit)
             .then(data => {
-                const list = Array.isArray(data) ? data : (data.blogs || []);
-                setBlogs(list);
-                setFilteredBlogs(list);
+                if (Array.isArray(data)) {
+                    setBlogs(data);
+                    setFilteredBlogs(data);
+                    setTotalPages(1);
+                    setTotalBlogs(data.length);
+                } else {
+                    const list = data.blogs || [];
+                    setBlogs(list);
+                    setFilteredBlogs(list);
+                    setTotalPages(data.totalPages || 1);
+                    setTotalBlogs(data.totalBlogs || 0);
+                }
             })
             .catch(err => setError(err.message))
             .finally(() => setLoading(false));
-    }, []);
+    }, [page]);
 
-    // Filter and Sort Processing
+    // Filter and Sort Processing (client-side within current page)
     useEffect(() => {
         let result = [...blogs];
 
@@ -71,6 +87,21 @@ export default function Explore() {
         setFilteredBlogs(result);
     }, [blogs, searchQuery, selectedCategory, sortBy]);
 
+    // Handle Page Changes
+    const handlePrevPage = () => {
+        if (page > 1) {
+            setPage(prev => prev - 1);
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+    };
+
+    const handleNextPage = () => {
+        if (page < totalPages) {
+            setPage(prev => prev + 1);
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+    };
+
     // Category pills config
     const categoriesList = [
         { label: 'All Topics', value: '' },
@@ -89,13 +120,20 @@ export default function Explore() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                     {/* Header text */}
-                    <div className="mb-10 text-left">
-                        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-display">
-                            Explore Stories
-                        </h1>
-                        <p className="text-slate-500 text-xs font-semibold mt-1">
-                            Dive deep into write-ups, code guides, creative reviews, and technical research.
-                        </p>
+                    <div className="mb-10 text-left flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                        <div>
+                            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-display">
+                                Explore Stories
+                            </h1>
+                            <p className="text-slate-500 text-xs font-semibold mt-1">
+                                Dive deep into write-ups, code guides, creative reviews, and technical research.
+                            </p>
+                        </div>
+                        {totalBlogs > 0 && (
+                            <div className="text-xs font-bold text-slate-400 bg-white/70 px-3.5 py-1.5 rounded-full border border-slate-200/60 shadow-sm self-start sm:self-auto">
+                                Showing {blogs.length} of {totalBlogs} articles
+                            </div>
+                        )}
                     </div>
 
                     {/* Filtering Layout Row */}
@@ -200,6 +238,33 @@ export default function Explore() {
                                 )}
                             </motion.div>
                         </AnimatePresence>
+                    )}
+
+                    {/* Pagination UI Controls */}
+                    {!loading && totalPages > 1 && (
+                        <div className="mt-14 flex items-center justify-center gap-3">
+                            <button
+                                onClick={handlePrevPage}
+                                disabled={page <= 1 || loading}
+                                className="btn-secondary px-5 py-2.5 text-xs font-bold flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-sm"
+                            >
+                                <ArrowLeft size={16} weight="bold" />
+                                <span>Previous</span>
+                            </button>
+
+                            <div className="px-5 py-2.5 bg-white/80 border border-slate-200/80 rounded-full text-xs font-bold text-slate-700 shadow-sm backdrop-blur-md">
+                                Page <span className="text-indigo-600 font-extrabold">{page}</span> of <span className="text-slate-800">{totalPages}</span>
+                            </div>
+
+                            <button
+                                onClick={handleNextPage}
+                                disabled={page >= totalPages || loading}
+                                className="btn-secondary px-5 py-2.5 text-xs font-bold flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-sm"
+                            >
+                                <span>Next</span>
+                                <ArrowRight size={16} weight="bold" />
+                            </button>
+                        </div>
                     )}
 
                 </div>
